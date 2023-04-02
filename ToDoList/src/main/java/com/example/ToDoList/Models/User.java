@@ -3,6 +3,8 @@ package com.example.ToDoList.Models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -31,4 +33,7 @@ public class User {
 
     @Column(name = "password")
     private String password;
+
+    @OneToMany(mappedBy = "user",orphanRemoval = true,cascade = {CascadeType.ALL})
+    List<Task> userTaskList;
 }

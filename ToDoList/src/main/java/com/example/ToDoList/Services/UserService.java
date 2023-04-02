@@ -2,6 +2,7 @@ package com.example.ToDoList.Services;
 
 import com.example.ToDoList.Exceptions.NotFoundException;
 import com.example.ToDoList.Exceptions.UsernameAlreadyInUseException;
+import com.example.ToDoList.Exceptions.WrongPasswordException;
 import com.example.ToDoList.Models.User;
 import com.example.ToDoList.Repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import java.util.Optional;
 
 public class UserService {
 
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -76,5 +77,14 @@ public class UserService {
     public void deleteUser(Long id) throws NotFoundException {
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("Id not found"));
         userRepository.delete(user);
+    }
+
+    public User getUsernameAndPassword(String username, String password) throws NotFoundException, WrongPasswordException {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        User user = userOptional.orElseThrow(() -> new NotFoundException("Username not found"));
+        if (!user.getPassword().equals(password)) {
+            throw new WrongPasswordException("Wrong password");
+        }
+        return user;
     }
 }

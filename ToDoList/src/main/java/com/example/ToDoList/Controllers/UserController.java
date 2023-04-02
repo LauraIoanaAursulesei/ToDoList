@@ -1,9 +1,13 @@
 package com.example.ToDoList.Controllers;
 
+import com.example.ToDoList.Dtos.LoginDto;
 import com.example.ToDoList.Exceptions.NotFoundException;
 import com.example.ToDoList.Exceptions.UsernameAlreadyInUseException;
+import com.example.ToDoList.Exceptions.WrongPasswordException;
 import com.example.ToDoList.Models.User;
 import com.example.ToDoList.Services.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +27,18 @@ public class UserController {
     @PostMapping()
     public User createUser(@RequestBody User newUser) throws UsernameAlreadyInUseException {
         return userService.createUser(newUser);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<User> login(@RequestBody LoginDto loginDto) {
+        try {
+            User user = userService.getUsernameAndPassword(loginDto.getUsername(), loginDto.getPassword());
+            return ResponseEntity.ok(user);
+        } catch (NotFoundException e) {
+            return new ResponseEntity("User not found", HttpStatus.NOT_FOUND);
+        } catch (WrongPasswordException e) {
+            return new ResponseEntity("Wrong password", HttpStatus.UNAUTHORIZED);
+        }
     }
 
     @GetMapping("/userById")
