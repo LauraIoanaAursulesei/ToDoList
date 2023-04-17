@@ -1,5 +1,6 @@
 package com.example.ToDoList.Controllers;
 
+import com.example.ToDoList.Dtos.TaskListDto;
 import com.example.ToDoList.Exceptions.NotFoundException;
 import com.example.ToDoList.Models.Task;
 import com.example.ToDoList.Services.TaskService;
@@ -28,6 +29,16 @@ public class TaskController {
     @GetMapping("/tasksByDeadline")
     public List<Task> getTasksByDeadline(@RequestParam Date deadline) {
         return taskService.getTasksByDeadline(deadline);
+    }
+
+    @GetMapping("/taskListByUsername")
+    public List<TaskListDto> getTaskList(@RequestParam String username) {
+        return taskService.getTaskList(username);
+    }
+
+    @GetMapping("/unfinishedTaskListByUsername")
+    public List<TaskListDto> getUnfinishedTaskList(@RequestParam String username) {
+        return taskService.getUnfinishedTaskList(username);
     }
 
     @PostMapping()
