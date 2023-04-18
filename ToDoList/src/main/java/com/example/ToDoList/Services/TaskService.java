@@ -1,5 +1,6 @@
 package com.example.ToDoList.Services;
 
+import com.example.ToDoList.Dtos.SearchResultDto;
 import com.example.ToDoList.Dtos.TaskListDto;
 import com.example.ToDoList.Exceptions.NotFoundException;
 import com.example.ToDoList.Models.Task;
@@ -67,6 +68,22 @@ public class TaskService {
 
     public List<TaskListDto> getUnfinishedTaskList(String username) {
         return taskRepository.findUnfinishedTaskListByUserUsername(username);
+    }
+
+    public List<SearchResultDto> getAllTasksByUsername(String username) {
+        return taskRepository.findAllTasksByUsername(username);
+    }
+
+    public List<SearchResultDto> getAllTasksBySubject(String subject) {
+        return taskRepository.findAllTasksBySubject(subject);
+    }
+
+    public List<SearchResultDto> getAllTasksByDeadline(Date deadline) {
+        return taskRepository.findAllTasksByDeadline(deadline);
+    }
+
+    public List<SearchResultDto> getAllTasksByStatus(Boolean status) {
+        return taskRepository.findAllTasksByStatus(status);
     }
 
 
