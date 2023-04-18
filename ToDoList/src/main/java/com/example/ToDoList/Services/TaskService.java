@@ -1,5 +1,6 @@
 package com.example.ToDoList.Services;
 
+import com.example.ToDoList.Dtos.TaskListDto;
 import com.example.ToDoList.Exceptions.NotFoundException;
 import com.example.ToDoList.Models.Task;
 import com.example.ToDoList.Repositories.TaskRepository;
@@ -59,4 +60,15 @@ public class TaskService {
         Task task = taskRepository.findById(id).orElseThrow(() -> new NotFoundException("Id not found"));
         taskRepository.delete(task);
     }
+
+    public List<TaskListDto> getTaskList(String username) {
+        return taskRepository.findTaskListByUserUsername(username);
+    }
+
+    public List<TaskListDto> getUnfinishedTaskList(String username) {
+        return taskRepository.findUnfinishedTaskListByUserUsername(username);
+    }
+
+
+
 }
